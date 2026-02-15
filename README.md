@@ -1,5 +1,7 @@
 # Public Transport Fleet Scheduling & Breakdown Management System
 
+Transport fleet scheduling and breakdown management web system that manages vehicles, drivers, routes, trip schedules, and repair tracking using a MySQL database to improve operational efficiency and reduce vehicle downtime.
+
 Java Spring Boot + MySQL web application demonstrating:
 
 - **User authentication** (admin login/logout)
@@ -94,4 +96,3 @@ Log in with:
 - **Form validation**: `static/js/app.js` contains simple client-side validation for required fields and basic formats.
 - **CRUD operations**: Each module (vehicles, drivers, routes, schedules, breakdowns, maintenance) has dedicated REST controllers and DAOs.
 - **Responsive UI**: `static/css/styles.css` uses flexbox + grid to provide a dashboard-style layout that works on desktop and mobile.
-
