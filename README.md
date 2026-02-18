@@ -1,98 +1,55 @@
-# Public Transport Fleet Scheduling & Breakdown Management System
+# Public Transport Fleet Scheduling System
 
-Transport fleet scheduling and breakdown management web system that manages vehicles, drivers, routes, trip schedules, and repair tracking using a MySQL database to improve operational efficiency and reduce vehicle downtime.
+A web-based application for managing public transport fleet schedules, driver assignments, and breakdown maintenance. Built with **Spring Boot** and **MySQL**.
 
-Java Spring Boot + MySQL web application demonstrating:
+## 🚀 Features
 
-- **User authentication** (admin login/logout)
-- **Vehicle management** (CRUD + status)
-- **Driver management** (CRUD + depot)
-- **Route management** (CRUD)
-- **Fleet scheduling** (assign vehicle + driver + route + date/time)
-- **Breakdown reporting** (report + update status)
-- **Maintenance logs** (repair history + cost)
+### 🛠 Role-Based Management
+- **Admin**: Manage vehicles, routes, schedules, and assign drivers.
+- **Driver**: View assigned schedules and report breakdowns.
+- **Mechanic**: View assigned maintenance tasks and update repair status.
 
-The frontend is a responsive **HTML/CSS/JavaScript** dashboard (no frontend framework) consuming **REST endpoints** from a Spring Boot backend using **JDBC (JdbcTemplate)**. MySQL schema and sample data are created automatically using `schema.sql` and `data.sql`.
+### 🚌 Fleet & Operations
+- **Vehicle Management**: Track fleet inventory and status.
+- **Route Planning**: Manage transport routes and timings.
+- **Scheduling**: Automated/Manual scheduling of trips.
+- **Breakdown Management**: Report and track vehicle breakdowns and maintenance logs.
 
----
+## 🛠 Tech Stack
 
-## Project structure (MVC-style)
+- **Backend**: Java 17, Spring Boot 3.3.2 (Web, JDBC)
+- **Database**: MySQL
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Build Tool**: Maven
 
-```text
-transport_app/
-├─ pom.xml
-├─ src/
-│  ├─ main/
-│  │  ├─ java/
-│  │  │  └─ com/transportapp/
-│  │  │     ├─ TransportAppApplication.java      # Spring Boot entry point
-│  │  │     ├─ model/                           # Domain models
-│  │  │     ├─ dao/                             # JDBC DAOs (CRUD)
-│  │  │     └─ controller/                      # REST controllers
-│  │  └─ resources/
-│  │     ├─ application.properties              # DB config + init settings
-│  │     ├─ schema.sql                          # MySQL schema (auto-run)
-│  │     ├─ data.sql                            # Sample data (auto-run)
-│  │     └─ static/                             # Frontend
-│  │        ├─ index.html                       # Dashboard UI
-│  │        ├─ css/styles.css                   # Responsive styling
-│  │        └─ js/app.js                        # JS + form validation + API calls
-```
+## ⚙️ Setup & Installation
 
----
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yadhukrishnan08/transport_shedule.git
+   cd transport_shedule
+   ```
 
-## Prerequisites
+2. **Configure Database**
+   Update `src/main/resources/application.properties` with your MySQL credentials:
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/transport_db
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+   ```
 
-- Java **17+**
-- Maven **3.8+**
-- MySQL server (local)
+3. **Build and Run**
+   ```bash
+   mvn spring-boot:run
+   ```
 
----
+4. **Access the Application**
+   Open your browser and navigate to: `http://localhost:8080`
 
-## Configure MySQL
+## 🤝 Contributing
 
-1. Ensure MySQL is running locally.
-2. Open `src/main/resources/application.properties` and set:
+Contributions are welcome! Please open an issue or submit a pull request.
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/transport_db?useSSL=false&serverTimezone=UTC
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-```
+## 📄 License
 
-3. No need to manually create the schema – `schema.sql` and `data.sql` will run automatically on startup and will:
-   - Create the `transport_db` database (if missing)
-   - Create all tables
-   - Insert sample data, including an admin user:
-     - **Username**: `admin`
-     - **Password**: `admin`
-
----
-
-## Run the application locally
-
-From the project root (`transport_app`), run:
-
-```bash
-mvn spring-boot:run
-```
-
-Once the build completes, open your browser and navigate to:
-
-```text
-http://localhost:8080/
-```
-
-Log in with:
-
-- **Username**: `admin`
-- **Password**: `admin`
-
----
-
-## Notes
-
-- **JDBC**: All database access is implemented using Spring's `JdbcTemplate` in the `dao` package.
-- **Form validation**: `static/js/app.js` contains simple client-side validation for required fields and basic formats.
-- **CRUD operations**: Each module (vehicles, drivers, routes, schedules, breakdowns, maintenance) has dedicated REST controllers and DAOs.
-- **Responsive UI**: `static/css/styles.css` uses flexbox + grid to provide a dashboard-style layout that works on desktop and mobile.
+This project is licensed under the MIT License.
