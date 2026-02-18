@@ -6,6 +6,14 @@ USE transport_db;
 -- =========================
 -- Users (Admin accounts)
 -- =========================
+-- DROP TABLE IF EXISTS maintenance_logs;
+-- DROP TABLE IF EXISTS breakdowns;
+-- DROP TABLE IF EXISTS schedules;
+-- DROP TABLE IF EXISTS routes;
+-- DROP TABLE IF EXISTS drivers;
+-- DROP TABLE IF EXISTS vehicles;
+-- DROP TABLE IF EXISTS users;
+
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -32,7 +40,8 @@ CREATE TABLE IF NOT EXISTS drivers (
     name VARCHAR(100) NOT NULL,
     license_number VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(20),
-    depot VARCHAR(100)
+    depot VARCHAR(100),
+    username VARCHAR(50) UNIQUE -- Link to users table username
 );
 
 -- =========================
@@ -84,6 +93,9 @@ CREATE TABLE IF NOT EXISTS maintenance_logs (
     service_date DATE NOT NULL,
     description VARCHAR(255),
     cost DECIMAL(10,2),
-    CONSTRAINT fk_maintenance_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicles (id)
+    status VARCHAR(30) DEFAULT 'Scheduled',
+    assigned_to BIGINT,
+    CONSTRAINT fk_maintenance_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicles (id),
+    CONSTRAINT fk_maintenance_user FOREIGN KEY (assigned_to) REFERENCES users (id)
 );
 

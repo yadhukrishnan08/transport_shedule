@@ -59,6 +59,7 @@ function formatDateTime(dtString) {
 // =========================
 
 const loginSection = document.getElementById('login-section');
+const roleSelectionSection = document.getElementById('role-selection-section');
 const dashboardSection = document.getElementById('dashboard-section');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
@@ -68,23 +69,71 @@ const logoutBtn = document.getElementById('logout-btn');
 async function checkCurrentUser() {
     try {
         const user = await apiRequest('/auth/me', { method: 'GET' });
-        showDashboard(user.username);
+        handleLoginSuccess(user);
     } catch (e) {
-        showLogin();
+        showRoleSelection();
+    }
+}
+
+function showRoleSelection() {
+    roleSelectionSection.classList.remove('hidden');
+    roleSelectionSection.style.display = 'block';
+
+    loginSection.classList.add('hidden');
+    loginSection.style.display = 'none';
+
+    dashboardSection.classList.add('hidden');
+    dashboardSection.style.display = 'none';
+
+    currentUsernameSpan.textContent = '';
+}
+
+let currentSelectedRole = null;
+
+function selectRole(role) {
+    console.log('Role selected:', role);
+    currentSelectedRole = role;
+    roleSelectionSection.classList.add('hidden');
+    roleSelectionSection.style.display = 'none';
+
+    loginSection.classList.remove('hidden');
+    loginSection.style.display = 'block';
+
+    document.getElementById('login-title').textContent = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase() + ' Login';
+}
+
+// Expose to window for onclick handlers
+window.showRoleSelection = showRoleSelection;
+window.selectRole = selectRole;
+
+function handleLoginSuccess(user) {
+    if (user.role === 'DRIVER') {
+        window.location.href = 'driver.html';
+    } else if (user.role === 'MECHANIC') {
+        window.location.href = 'mechanic.html';
+    } else {
+        // ADMIN or others
+        showDashboard(user.username);
     }
 }
 
 function showDashboard(username) {
+    roleSelectionSection.classList.add('hidden');
+    roleSelectionSection.style.display = 'none';
+
     loginSection.classList.add('hidden');
+    loginSection.style.display = 'none';
+
     dashboardSection.classList.remove('hidden');
+    dashboardSection.style.display = 'flex';
+
     currentUsernameSpan.textContent = 'Logged in as: ' + username;
     loadAllData();
 }
 
 function showLogin() {
-    loginSection.classList.remove('hidden');
-    dashboardSection.classList.add('hidden');
-    currentUsernameSpan.textContent = '';
+    // Deprecated in favor of role selection, but kept as fallback or for logout
+    showRoleSelection();
 }
 
 loginForm.addEventListener('submit', async (e) => {
@@ -106,12 +155,20 @@ loginForm.addEventListener('submit', async (e) => {
     if (!valid) return;
 
     try {
-        await apiRequest('/auth/login', {
+        const user = await apiRequest('/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({ username, password }).toString()
         });
-        showDashboard(username);
+
+        // Enforce Role Restriction
+        if (currentSelectedRole && user.role !== currentSelectedRole) {
+            // Logout to clear the session since the login was technically successful on the backend
+            await apiRequest('/auth/logout', { method: 'POST' });
+            throw new Error(`Access Denied: You are a ${user.role} and cannot login from the ${currentSelectedRole} login page.`);
+        }
+
+        handleLoginSuccess(user);
     } catch (err) {
         loginError.textContent = err.message;
     }

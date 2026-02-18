@@ -30,6 +30,7 @@ public class DriverDao {
             d.setLicenseNumber(rs.getString("license_number"));
             d.setPhone(rs.getString("phone"));
             d.setDepot(rs.getString("depot"));
+            d.setUsername(rs.getString("username"));
             return d;
         }
     }
@@ -45,21 +46,23 @@ public class DriverDao {
     }
 
     public int create(Driver driver) {
-        String sql = "INSERT INTO drivers (name, license_number, phone, depot) VALUES (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql,
-                driver.getName(),
-                driver.getLicenseNumber(),
-                driver.getPhone(),
-                driver.getDepot());
-    }
-
-    public int update(Driver driver) {
-        String sql = "UPDATE drivers SET name = ?, license_number = ?, phone = ?, depot = ? WHERE id = ?";
+        String sql = "INSERT INTO drivers (name, license_number, phone, depot, username) VALUES (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql,
                 driver.getName(),
                 driver.getLicenseNumber(),
                 driver.getPhone(),
                 driver.getDepot(),
+                driver.getUsername());
+    }
+
+    public int update(Driver driver) {
+        String sql = "UPDATE drivers SET name = ?, license_number = ?, phone = ?, depot = ?, username = ? WHERE id = ?";
+        return jdbcTemplate.update(sql,
+                driver.getName(),
+                driver.getLicenseNumber(),
+                driver.getPhone(),
+                driver.getDepot(),
+                driver.getUsername(),
                 driver.getId());
     }
 
@@ -68,4 +71,3 @@ public class DriverDao {
         return jdbcTemplate.update(sql, id);
     }
 }
-

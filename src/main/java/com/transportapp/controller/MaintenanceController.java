@@ -2,6 +2,8 @@ package com.transportapp.controller;
 
 import com.transportapp.dao.MaintenanceLogDao;
 import com.transportapp.model.MaintenanceLog;
+import com.transportapp.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,11 @@ public class MaintenanceController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody MaintenanceLog log) {
+    public ResponseEntity<?> create(@RequestBody MaintenanceLog log, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            log.setAssignedTo(user.getId());
+        }
         maintenanceLogDao.create(log);
         return ResponseEntity.ok("Maintenance log created");
     }
@@ -38,4 +44,3 @@ public class MaintenanceController {
         return ResponseEntity.ok("Maintenance log deleted");
     }
 }
-

@@ -44,5 +44,12 @@ public class UserDao {
             return null;
         }
     }
-}
 
+    /**
+     * Create a new user.
+     */
+    public int create(User user) {
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+        return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getRole());
+    }
+}

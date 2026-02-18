@@ -1,7 +1,8 @@
 package com.transportapp.model;
 
 /**
- * Driver entity representing a driver who can be assigned to a depot and routes.
+ * Driver entity representing a driver who can be assigned to a depot and
+ * routes.
  */
 public class Driver {
 
@@ -10,16 +11,18 @@ public class Driver {
     private String licenseNumber;
     private String phone;
     private String depot;
+    private String username; // Added to link with User entity
 
     public Driver() {
     }
 
-    public Driver(Long id, String name, String licenseNumber, String phone, String depot) {
+    public Driver(Long id, String name, String licenseNumber, String phone, String depot, String username) {
         this.id = id;
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.phone = phone;
         this.depot = depot;
+        this.username = username;
     }
 
     public Long getId() {
@@ -61,5 +64,12 @@ public class Driver {
     public void setDepot(String depot) {
         this.depot = depot;
     }
-}
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+}

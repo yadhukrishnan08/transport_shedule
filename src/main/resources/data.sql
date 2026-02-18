@@ -2,9 +2,14 @@
 
 USE transport_db;
 
--- Admin user (username: admin, password: admin)
-INSERT INTO users (username, password, role)
-VALUES ('admin', 'admin', 'ADMIN')
+-- Users (Admin, Drivers, Mechanics)
+INSERT INTO users (username, password, role) VALUES
+('admin', 'admin', 'ADMIN'),
+('ravi', 'password', 'DRIVER'),
+('anil', 'password', 'DRIVER'),
+('suresh', 'password', 'DRIVER'),
+('mech1', 'password', 'MECHANIC'),
+('mech2', 'password', 'MECHANIC')
 ON DUPLICATE KEY UPDATE password = VALUES(password), role = VALUES(role);
 
 -- Vehicles
@@ -14,12 +19,12 @@ INSERT INTO vehicles (registration_number, type, depot, status) VALUES
 ('KL-03-EF-9012', 'Bus', 'South Depot', 'Under Repair')
 ON DUPLICATE KEY UPDATE type = VALUES(type), depot = VALUES(depot), status = VALUES(status);
 
--- Drivers
-INSERT INTO drivers (name, license_number, phone, depot) VALUES
-('Ravi Kumar', 'LIC-DR-1001', '9876543210', 'Central Depot'),
-('Anil Singh', 'LIC-DR-1002', '9876500000', 'North Depot'),
-('Suresh Das', 'LIC-DR-1003', '9876511111', 'South Depot')
-ON DUPLICATE KEY UPDATE name = VALUES(name), phone = VALUES(phone), depot = VALUES(depot);
+-- Drivers (linked to users via username)
+INSERT INTO drivers (name, license_number, phone, depot, username) VALUES
+('Ravi Kumar', 'LIC-DR-1001', '9876543210', 'Central Depot', 'ravi'),
+('Anil Singh', 'LIC-DR-1002', '9876500000', 'North Depot', 'anil'),
+('Suresh Das', 'LIC-DR-1003', '9876511111', 'South Depot', 'suresh')
+ON DUPLICATE KEY UPDATE name = VALUES(name), phone = VALUES(phone), depot = VALUES(depot), username = VALUES(username);
 
 -- Routes
 INSERT INTO routes (code, origin, destination, distance_km) VALUES

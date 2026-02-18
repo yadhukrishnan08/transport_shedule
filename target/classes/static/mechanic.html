@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mechanic Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Mechanic Dashboard</h1>
+            <div id="user-info" class="user-info">
+                <span id="current-username"></span>
+                <button id="logout-btn" class="btn btn-secondary btn-small">Logout</button>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section id="dashboard-section" class="dashboard">
+                <nav class="sidebar">
+                    <button class="nav-link active" data-target="breakdowns-panel">Breakdowns / Repairs</button>
+                    <button class="nav-link" data-target="logs-panel">Maintenance Logs</button>
+                </nav>
+
+                <section class="content">
+                    <!-- Breakdowns -->
+                    <div id="breakdowns-panel" class="panel active">
+                        <h2>Active Breakdowns</h2>
+                        <table id="breakdowns-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Vehicle</th>
+                                    <th>Reported</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Maintenance Logs -->
+                    <div id="logs-panel" class="panel">
+                        <h2>Maintenance Logs</h2>
+                        <button id="add-log-btn" class="btn btn-primary" style="margin-bottom: 1rem;">+ Add Maintenance
+                            Log</button>
+
+                        <div id="log-form-container" class="hidden"
+                            style="margin-bottom: 1rem; border: 1px solid #1f2937; padding: 1rem; border-radius: 0.5rem;">
+                            <h3>New Log</h3>
+                            <form id="maintenance-form" class="grid-2" novalidate>
+                                <div class="form-group">
+                                    <label for="maintenance-vehicle">Vehicle</label>
+                                    <select id="maintenance-vehicle" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="maintenance-date">Date</label>
+                                    <input type="date" id="maintenance-date" required />
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="maintenance-description">Description</label>
+                                    <textarea id="maintenance-description" rows="2" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="maintenance-cost">Cost</label>
+                                    <input type="number" id="maintenance-cost" min="0" step="0.01" />
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Log</button>
+                                    <button type="button" id="cancel-log" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <table id="logs-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Vehicle</th>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Cost</th>
+                                    <th>Assigned To</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/mechanic.js"></script>
+</body>
+
+</html>

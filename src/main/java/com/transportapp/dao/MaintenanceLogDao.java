@@ -33,6 +33,10 @@ public class MaintenanceLogDao {
             m.setServiceDate(d != null ? d.toLocalDate() : null);
             m.setDescription(rs.getString("description"));
             m.setCost(rs.getDouble("cost"));
+            m.setAssignedTo(rs.getLong("assigned_to"));
+            if (rs.wasNull()) {
+                m.setAssignedTo(null);
+            }
             return m;
         }
     }
@@ -43,14 +47,15 @@ public class MaintenanceLogDao {
     }
 
     public int create(MaintenanceLog log) {
-        String sql = "INSERT INTO maintenance_logs (vehicle_id, service_date, description, cost) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO maintenance_logs (vehicle_id, service_date, description, cost, assigned_to) " +
+                "VALUES (?, ?, ?, ?, ?)";
         LocalDate d = log.getServiceDate();
         return jdbcTemplate.update(sql,
                 log.getVehicleId(),
                 d,
                 log.getDescription(),
-                log.getCost());
+                log.getCost(),
+                log.getAssignedTo());
     }
 
     public int delete(Long id) {
@@ -58,4 +63,3 @@ public class MaintenanceLogDao {
         return jdbcTemplate.update(sql, id);
     }
 }
-

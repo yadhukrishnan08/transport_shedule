@@ -12,16 +12,19 @@ public class MaintenanceLog {
     private LocalDate serviceDate;
     private String description;
     private Double cost;
+    private Long assignedTo;
 
     public MaintenanceLog() {
     }
 
-    public MaintenanceLog(Long id, Long vehicleId, LocalDate serviceDate, String description, Double cost) {
+    public MaintenanceLog(Long id, Long vehicleId, LocalDate serviceDate, String description, Double cost,
+            Long assignedTo) {
         this.id = id;
         this.vehicleId = vehicleId;
         this.serviceDate = serviceDate;
         this.description = description;
         this.cost = cost;
+        this.assignedTo = assignedTo;
     }
 
     public Long getId() {
@@ -63,5 +66,12 @@ public class MaintenanceLog {
     public void setCost(Double cost) {
         this.cost = cost;
     }
-}
 
+    public Long getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Long assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+}
